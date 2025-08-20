@@ -1,0 +1,63 @@
+name: Nightly Build and Publish
+
+on:
+  schedule:
+    - cron: "0 3 * * *" # 3 am utc
+  workflow_dispatch:
+
+jobs:
+  build-and-release:
+    runs-on: macos-latest
+
+    env:
+      GH_TOKEN: ${{ secrets.GH_TOKEN_FINE }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install create-dmg
+        run: |
+          brew update
+          brew install create-dmg
+
+      - name: Build App
+        run: |
+          xcodebuild -scheme "Dump1090 macOS GUI" \
+                     -configuration Release \
+                     -destination "platform=macOS" \
+                     BUILD_DIR=build \
+                     clean build
+
+      - name: Package DMG
+        run: |
+          create-dmg \
+            --volname "Dump1090MAC" \
+            --window-pos 200 120 \
+            --window-size 600 400 \
+            --icon-size 128 \
+            --icon "build/Release/Dump1090 macOS GUI.app" 150 150 \
+            --hide-extension "Dump1090 macOS GUI.app" \
+            --app-drop-link 450 150 \
+            "build/Release/Dump1090MAC.dmg" \
+            "build/Release/Dump1090 macOS GUI.app"
+
+      - name: Nightly release
+        id: release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: nightly
+          name: Nightly
+          draft: false
+          prerelease: true
+        env:
+          GITHUB_TOKEN: ${{ env.GH_TOKEN }}
+
+      - name: Upload DMG to release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: nightly
+          name: Dump1090MAC.dmg
+          file: build/Release/Dump1090MAC.dmg
+        env:
+          GITHUB_TOKEN: ${{ env.GH_TOKEN }}
