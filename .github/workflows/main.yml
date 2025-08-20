@@ -1,4 +1,4 @@
-name: Build macOS App
+name: Build and Package
 
 on:
   push:
@@ -13,6 +13,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Set up Homebrew
+        run: |
+          brew update
+          brew install create-dmg
+
       - name: Build App
         run: |
           xcodebuild -scheme "Dump1090 macOS GUI" \
@@ -21,13 +26,21 @@ jobs:
                      BUILD_DIR=build \
                      clean build
 
-      - name: Package App
+      - name: Package DMG
         run: |
-          cd build/Release
-          zip -r "Dump1090MAC.zip" "Dump1090 macOS GUI.app"
+          create-dmg \
+            --volname "Dump1090MAC" \
+            --window-pos 200 120 \
+            --window-size 600 400 \
+            --icon-size 128 \
+            --icon "Dump1090 macOS GUI.app" 150 150 \
+            --hide-extension "Dump1090 macOS GUI.app" \
+            --app-drop-link 450 450 \
+            "build/Release/Dump1090MAC.dmg" \
+            "build/Release/Dump1090 macOS GUI.app"
 
-      - name: Upload Artifact
+      - name: Upload DMG
         uses: actions/upload-artifact@v4
         with:
-          name: Dump1090MAC
-          path: build/Release/Dump1090MAC.zip
+          name: Dump1090MAC-DMG
+          path: build/Release/Dump1090MAC.dmg
