@@ -1,0 +1,33 @@
+name: Build App
+
+on:
+  push:
+    tags:
+      - '*'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build App
+        run: |
+          xcodebuild -scheme "Dump1090 macOS GUI" \
+                     -configuration Release \
+                     -destination "platform=macOS" \
+                     BUILD_DIR=build \
+                     clean build
+
+      - name: Package App
+        run: |
+          cd build/Release
+          zip -r "Dump1090MAC.zip" "Dump1090 macOS GUI.app"
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: Dump1090MAC
+          path: build/Release/Dump1090MAC.zip
