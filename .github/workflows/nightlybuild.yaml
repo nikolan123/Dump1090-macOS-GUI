@@ -36,7 +36,7 @@ jobs:
             --window-pos 200 120 \
             --window-size 600 400 \
             --icon-size 128 \
-            --icon "build/Release/Dump1090 macOS GUI.app" 150 150 \
+            --icon "Dump1090 macOS GUI.app" 150 150 \
             --hide-extension "Dump1090 macOS GUI.app" \
             --app-drop-link 450 150 \
             "build/Release/Dump1090MAC.dmg" \
