@@ -1,4 +1,4 @@
-name: Build App
+name: Build macOS App
 
 on:
   push:
@@ -27,7 +27,7 @@ jobs:
           zip -r "Dump1090MAC.zip" "Dump1090 macOS GUI.app"
 
       - name: Upload Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: Dump1090MAC
           path: build/Release/Dump1090MAC.zip
