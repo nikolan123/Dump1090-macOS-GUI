@@ -14,9 +14,6 @@ A Dump1090 SwiftUI wrapper for macOS.
   macOS 15.5 or later. Nightly build
 </p>
 
-
-
-
 ## Credits
 - Inspired by: [mxswd/dump1090-mac-app](https://github.com/mxswd/dump1090-mac-app)
 - dump1090 executable: commit `bff92c4` of [MalcolmRobb/dump1090](https://github.com/MalcolmRobb/dump1090) (BSD3)

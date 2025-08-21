@@ -27,6 +27,7 @@ class ServerManager: ObservableObject {
     @Published var availableDevices: [String] = []
     @Published var selectedDeviceIndex: Int = 0
     
+    @Published var customLaunchArguments: String = "";
     @Published var bindAddress: String = "127.0.0.1"
     @Published var netRiPort: Int = 30001
     @Published var netRoPort: Int = 30002
@@ -104,7 +105,7 @@ class ServerManager: ObservableObject {
         }
     }
 
-    private func buildArguments() -> [String] {
+    func buildArguments() -> [String] {
         var args: [String] = []
 
         // Device config
@@ -135,7 +136,12 @@ class ServerManager: ObservableObject {
             args.append("--lat"); args.append(latitude)
             args.append("--lon"); args.append(longitude)
         }
-    
+        
+        // Custom launch arguments
+        if !customLaunchArguments.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            args.append(contentsOf: customLaunchArguments.split(separator: " ").map { String($0) })
+        }
+
         return args
     }
 
@@ -165,7 +171,7 @@ class ServerManager: ObservableObject {
             }
 
             // Detect USB/port errors
-            if str.contains("usb_claim_interface error") || str.contains("port already in use") || str.contains("No supported RTLSDR devices found.") {
+            if str.contains("usb_claim_interface error") || str.contains("port already in use") || str.contains("No supported RTLSDR devices found.") || str.contains("Unknown or not enough arguments") {
                 handleDeviceOrPortError(str)
             }
 

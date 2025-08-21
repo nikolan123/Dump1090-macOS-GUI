@@ -13,6 +13,6 @@ struct Dump1090_macOS_GUIApp: App {
         WindowGroup {
             ContentView()
         }
-        .defaultSize(width: 400, height: 500)
+        .defaultSize(width: 600, height: 500)
     }
 }

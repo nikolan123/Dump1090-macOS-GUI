@@ -132,6 +132,11 @@ struct ContentView: View {
                     TextField("Latitude", text: $serverManager.latitude)
                     TextField("Longitude", text: $serverManager.longitude)
                 }
+                
+                // MARK: - Other Section
+                Section(header: Text("Other").font(.headline).fontWeight(.bold)) {
+                    TextField("Extra Launch Arguments", text: $serverManager.customLaunchArguments)
+                }
             }
             .formStyle(.grouped)
             .scrollContentBackground(.hidden)
@@ -170,7 +175,7 @@ struct ContentView: View {
     }
 
     private var footerView: some View {
-        VStack(spacing: 8) {
+        VStack(spacing: 10) {
             HStack {
                 Text("Status:")
                     .foregroundColor(.secondary)
@@ -180,8 +185,6 @@ struct ContentView: View {
                 Button("Logs") {
                     showingLogs = true
                 }
-                .buttonStyle(.bordered)
-                .controlSize(.small)
             }
             .font(.subheadline)
 
