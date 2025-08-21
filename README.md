@@ -7,7 +7,7 @@
 A Dump1090 SwiftUI wrapper for macOS.
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/d566b50b-8225-42df-b68e-c2420888c597" width="400" />
+  <img alt="Screenshot" src="https://github.com/user-attachments/assets/758aaf3c-4d5e-4264-b130-590d3836b0e2" width="712" />
   <br>
   <a href="https://github.com/nikolan123/Dump1090-macOS-GUI/releases/download/nightly/Dump1090MAC.dmg"><img height="50" alt="Image" src="https://github.com/user-attachments/assets/c41f9e2d-af5c-47e1-a5b9-70047bb37600" /></a>
   <br>
