@@ -9,7 +9,7 @@ A Dump1090 SwiftUI wrapper for macOS.
 <p align="center">
   <img src="https://github.com/user-attachments/assets/d566b50b-8225-42df-b68e-c2420888c597" width="400" />
   <br>
-  <a href="https://github.com/nikolan123/Dump1090-macOS-GUI/releases/tag/nightly"><img height="50" alt="Image" src="https://github.com/user-attachments/assets/c41f9e2d-af5c-47e1-a5b9-70047bb37600" /></a>
+  <a href="https://github.com/nikolan123/Dump1090-macOS-GUI/releases/download/nightly/Dump1090MAC.dmg"><img height="50" alt="Image" src="https://github.com/user-attachments/assets/c41f9e2d-af5c-47e1-a5b9-70047bb37600" /></a>
   <br>
   macOS 15.5 or later. Nightly build
 </p>
