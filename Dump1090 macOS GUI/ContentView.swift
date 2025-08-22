@@ -10,6 +10,7 @@ import SwiftUI
 struct ContentView: View {
     @StateObject private var serverManager = ServerManager()
     @State private var showingLogs = false
+    @State private var showingData = false
 
     var body: some View {
         VStack(spacing: 0) {
@@ -182,6 +183,10 @@ struct ContentView: View {
                 Text(serverManager.status)
                     .fontWeight(.bold)
                 Spacer()
+                Button("Data") {
+                    showingData = true
+                }
+                .disabled(!serverManager.isRunning)
                 Button("Logs") {
                     showingLogs = true
                 }
@@ -221,6 +226,25 @@ struct ContentView: View {
                     .background(Color(NSColor.textBackgroundColor))
                 }
                 .frame(minWidth: 600, minHeight: 400)
+            }
+            .sheet(isPresented: $showingData) {
+                VStack(spacing: 0) {
+                    HStack {
+                        Text("Data")
+                            .font(.headline)
+                        Spacer()
+                        Button("Close") {
+                            showingData = false
+                        }
+                        .keyboardShortcut(.cancelAction)
+                    }
+                    .padding()
+                    Divider()
+                    
+                    DataView(host: "127.0.0.1", port: serverManager.netSbsPort)
+                    .background(Color(NSColor.textBackgroundColor))
+                }
+                .frame(minWidth: 850)
             }
             .tint(serverManager.isRunning ? .red : .green)
         }
