@@ -29,11 +29,11 @@ class ServerManager: ObservableObject {
     
     @Published var customLaunchArguments: String = "";
     @Published var bindAddress: String = "127.0.0.1"
-    @Published var netRiPort: Int = 30001
-    @Published var netRoPort: Int = 30002
-    @Published var netSbsPort: Int = 30003
-    @Published var netBiPort: Int = 30004
-    @Published var netBoPort: Int = 30005
+    @Published var netRiPort: UInt16 = 30001
+    @Published var netRoPort: UInt16 = 30002
+    @Published var netSbsPort: UInt16 = 30003
+    @Published var netBiPort: UInt16 = 30004
+    @Published var netBoPort: UInt16 = 30005
 
     @Published var showErrorAlert: Bool = false
     @Published var errorMessage: String = ""

@@ -80,7 +80,7 @@ struct ContentView: View {
                         Spacer()
                         TextField("", text: Binding(
                             get: { String(serverManager.netRiPort) },
-                            set: { serverManager.netRiPort = Int($0) ?? serverManager.netRiPort }
+                            set: { if let value = UInt16($0) { serverManager.netRiPort = value } }
                         ))
                     }
 
@@ -89,7 +89,7 @@ struct ContentView: View {
                         Spacer()
                         TextField("", text: Binding(
                             get: { String(serverManager.netRoPort) },
-                            set: { serverManager.netRoPort = Int($0) ?? serverManager.netRoPort }
+                            set: { if let value = UInt16($0) { serverManager.netRoPort = value } }
                         ))
                     }
 
@@ -98,7 +98,7 @@ struct ContentView: View {
                         Spacer()
                         TextField("", text: Binding(
                             get: { String(serverManager.netSbsPort) },
-                            set: { serverManager.netSbsPort = Int($0) ?? serverManager.netSbsPort }
+                            set: { if let value = UInt16($0) { serverManager.netSbsPort = value } }
                         ))
                     }
 
@@ -107,7 +107,7 @@ struct ContentView: View {
                         Spacer()
                         TextField("", text: Binding(
                             get: { String(serverManager.netBiPort) },
-                            set: { serverManager.netBiPort = Int($0) ?? serverManager.netBiPort }
+                            set: { if let value = UInt16($0) { serverManager.netBiPort = value } }
                         ))
                     }
 
@@ -116,7 +116,7 @@ struct ContentView: View {
                         Spacer()
                         TextField("", text: Binding(
                             get: { String(serverManager.netBoPort) },
-                            set: { serverManager.netBoPort = Int($0) ?? serverManager.netBoPort }
+                            set: { if let value = UInt16($0) { serverManager.netBoPort = value } }
                         ))
                     }
 
