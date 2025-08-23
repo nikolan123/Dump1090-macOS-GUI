@@ -170,6 +170,7 @@ struct ContentView: View {
         }
         .alert(serverManager.errorMessage, isPresented: $serverManager.showErrorAlert) {
             Button("OK", role: .cancel) { }
+                .keyboardShortcut(.defaultAction)
         }
     }
 
