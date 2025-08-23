@@ -75,40 +75,30 @@ struct ContentView: View {
                     }
                     .pickerStyle(.menu)
 
-                    HStack {
-                        TextField("TCP Raw Input Listen Port", text: Binding(
-                            get: { String(serverManager.netRiPort) },
-                            set: { if let value = UInt16($0) { serverManager.netRiPort = value } }
-                        ))
-                    }
+                    TextField("TCP Raw Input Listen Port", text: Binding(
+                        get: { String(serverManager.netRiPort) },
+                        set: { if let value = UInt16($0) { serverManager.netRiPort = value } }
+                    ))
 
-                    HStack {
-                        TextField("TCP Raw Output Port", text: Binding(
-                            get: { String(serverManager.netRoPort) },
-                            set: { if let value = UInt16($0) { serverManager.netRoPort = value } }
-                        ))
-                    }
+                    TextField("TCP Raw Output Port", text: Binding(
+                        get: { String(serverManager.netRoPort) },
+                        set: { if let value = UInt16($0) { serverManager.netRoPort = value } }
+                    ))
 
-                    HStack {
-                        TextField("TCP BaseStation Output Listen Port", text: Binding(
-                            get: { String(serverManager.netSbsPort) },
-                            set: { if let value = UInt16($0) { serverManager.netSbsPort = value } }
-                        ))
-                    }
+                    TextField("TCP BaseStation Output Listen Port", text: Binding(
+                        get: { String(serverManager.netSbsPort) },
+                        set: { if let value = UInt16($0) { serverManager.netSbsPort = value } }
+                    ))
 
-                    HStack {
-                        TextField("TCP Beast Input Listen Port", text: Binding(
-                            get: { String(serverManager.netBiPort) },
-                            set: { if let value = UInt16($0) { serverManager.netBiPort = value } }
-                        ))
-                    }
+                    TextField("TCP Beast Input Listen Port", text: Binding(
+                        get: { String(serverManager.netBiPort) },
+                        set: { if let value = UInt16($0) { serverManager.netBiPort = value } }
+                    ))
 
-                    HStack {
-                        TextField("TCP Beast Output Listen Port", text: Binding(
-                            get: { String(serverManager.netBoPort) },
-                            set: { if let value = UInt16($0) { serverManager.netBoPort = value } }
-                        ))
-                    }
+                    TextField("TCP Beast Output Listen Port", text: Binding(
+                        get: { String(serverManager.netBoPort) },
+                        set: { if let value = UInt16($0) { serverManager.netBoPort = value } }
+                    ))
 
                     Toggle("Enable Network Discovery", isOn: $serverManager.networkDiscoveryEnabled)
                         .toggleStyle(.switch)
