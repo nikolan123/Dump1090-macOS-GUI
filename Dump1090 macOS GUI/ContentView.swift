@@ -23,7 +23,7 @@ struct ContentView: View {
             Form {
                 // MARK: - Device Section
                 Section(header: Text("Device").font(.headline).fontWeight(.bold)) {
-                    HStack {
+                    HStack(alignment: .firstTextBaseline) {
                         Picker("Device", selection: $serverManager.selectedDeviceIndex) {
                             ForEach(serverManager.availableDevices.indices, id: \.self) { idx in
                                 Text(serverManager.availableDevices[idx]).tag(idx)
@@ -38,6 +38,7 @@ struct ContentView: View {
                         } label: {
                             Image(systemName: "arrow.clockwise")
                         }
+                        .controlSize(.small)
                         .help("Rescan for devices")
                     }
                     
