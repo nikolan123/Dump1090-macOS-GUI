@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    @StateObject private var serverManager = ServerManager()
+    @EnvironmentObject var serverManager: ServerManager
     @State private var showingLogs = false
     @State private var showingData = false
 
