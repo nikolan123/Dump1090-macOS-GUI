@@ -21,6 +21,8 @@ class ServerManager: ObservableObject {
     @Published var status: String = "Offline"
     @Published var consoleOutput: String = ""
     @Published var isRunning: Bool = false
+    @Published var showingLogs = false
+    @Published var showingData = false
     @Published var networkDiscoveryEnabled: Bool = true
     @Published var showingAdvancedPorts = false
     
@@ -54,7 +56,7 @@ class ServerManager: ObservableObject {
         }
     }
 
-    private func launchServer() {
+    func launchServer() {
         let task = Process()
         guard let execURL = Bundle.main.url(forAuxiliaryExecutable: "dump1090_mac") else {
             appendConsole("Executable not found")
@@ -145,7 +147,7 @@ class ServerManager: ObservableObject {
         return args
     }
 
-    private func killServer() {
+    func killServer() {
         task?.interrupt()
         usleep(10)
         if task?.isRunning == true {

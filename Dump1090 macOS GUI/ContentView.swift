@@ -9,8 +9,6 @@ import SwiftUI
 
 struct ContentView: View {
     @EnvironmentObject var serverManager: ServerManager
-    @State private var showingLogs = false
-    @State private var showingData = false
 
     var body: some View {
         VStack(spacing: 0) {
@@ -184,11 +182,11 @@ struct ContentView: View {
                     .fontWeight(.bold)
                 Spacer()
                 Button("Data") {
-                    showingData = true
+                    serverManager.showingData = true
                 }
                 .disabled(!serverManager.isRunning)
                 Button("Logs") {
-                    showingLogs = true
+                    serverManager.showingLogs = true
                 }
             }
             .font(.subheadline)
@@ -200,14 +198,14 @@ struct ContentView: View {
             }
             .buttonStyle(.borderedProminent)
             .controlSize(.large)
-            .sheet(isPresented: $showingLogs) {
+            .sheet(isPresented: $serverManager.showingLogs) {
                 VStack(spacing: 0) {
                     HStack {
                         Text("Server Logs")
                             .font(.headline)
                         Spacer()
                         Button("Close") {
-                            showingLogs = false
+                            serverManager.showingLogs = false
                         }
                         .keyboardShortcut(.cancelAction)
                     }
@@ -227,14 +225,14 @@ struct ContentView: View {
                 }
                 .frame(minWidth: 600, minHeight: 400)
             }
-            .sheet(isPresented: $showingData) {
+            .sheet(isPresented: $serverManager.showingData) {
                 VStack(spacing: 0) {
                     HStack {
                         Text("Data")
                             .font(.headline)
                         Spacer()
                         Button("Close") {
-                            showingData = false
+                            serverManager.showingData = false
                         }
                         .keyboardShortcut(.cancelAction)
                     }
