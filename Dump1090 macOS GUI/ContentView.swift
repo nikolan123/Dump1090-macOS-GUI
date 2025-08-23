@@ -76,45 +76,35 @@ struct ContentView: View {
                     .pickerStyle(.menu)
 
                     HStack {
-                        Text("TCP Raw Input Listen Port")
-                        Spacer()
-                        TextField("", text: Binding(
+                        TextField("TCP Raw Input Listen Port", text: Binding(
                             get: { String(serverManager.netRiPort) },
                             set: { if let value = UInt16($0) { serverManager.netRiPort = value } }
                         ))
                     }
 
                     HStack {
-                        Text("TCP Raw Output Port")
-                        Spacer()
-                        TextField("", text: Binding(
+                        TextField("TCP Raw Output Port", text: Binding(
                             get: { String(serverManager.netRoPort) },
                             set: { if let value = UInt16($0) { serverManager.netRoPort = value } }
                         ))
                     }
 
                     HStack {
-                        Text("TCP BaseStation Output Listen Port")
-                        Spacer()
-                        TextField("", text: Binding(
+                        TextField("TCP BaseStation Output Listen Port", text: Binding(
                             get: { String(serverManager.netSbsPort) },
                             set: { if let value = UInt16($0) { serverManager.netSbsPort = value } }
                         ))
                     }
 
                     HStack {
-                        Text("TCP Beast Input Listen Port")
-                        Spacer()
-                        TextField("", text: Binding(
+                        TextField("TCP Beast Input Listen Port", text: Binding(
                             get: { String(serverManager.netBiPort) },
                             set: { if let value = UInt16($0) { serverManager.netBiPort = value } }
                         ))
                     }
 
                     HStack {
-                        Text("TCP Beast Output Listen Port")
-                        Spacer()
-                        TextField("", text: Binding(
+                        TextField("TCP Beast Output Listen Port", text: Binding(
                             get: { String(serverManager.netBoPort) },
                             set: { if let value = UInt16($0) { serverManager.netBoPort = value } }
                         ))
