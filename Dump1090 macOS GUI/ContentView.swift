@@ -196,12 +196,12 @@ struct ContentView: View {
                     
                     ScrollView {
                         VStack(alignment: .leading) {
-                            ForEach(serverManager.logLines, id: \.self) { line in
-                                Text(line)
-                                    .font(.system(.body, design: .monospaced))
-                                    .frame(maxWidth: .infinity, alignment: .leading)
-                            }
+                            Text(serverManager.logLines.joined(separator: "\n"))
+                                .font(.system(.body, design: .monospaced))
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .textSelection(.enabled)
                         }
+                        .textSelection(.enabled)
                     }
                     .background(Color(NSColor.textBackgroundColor))
                 }
