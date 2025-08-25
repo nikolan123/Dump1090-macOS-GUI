@@ -7,13 +7,14 @@
 	objects = {
 
 /* Begin PBXCopyFilesBuildPhase section */
-		2366683C2E565193002FA982 /* CopyFiles */ = {
+		2366683C2E565193002FA982 /* Copy Dump1090 Executable */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 6;
 			files = (
 			);
+			name = "Copy Dump1090 Executable";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -33,12 +34,12 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
-		236668432E565639002FA982 /* Exceptions for "Dump1090 macOS GUI" folder in "Copy Files" phase from "Dump1090 macOS GUI" target */ = {
+		236668432E565639002FA982 /* Exceptions for "Dump1090 macOS GUI" folder in "Copy Dump1090 Executable" phase from "Dump1090 macOS GUI" target */ = {
 			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
 			attributesByRelativePath = {
 				dump1090_mac = (CodeSignOnCopy, );
 			};
-			buildPhase = 2366683C2E565193002FA982 /* CopyFiles */;
+			buildPhase = 2366683C2E565193002FA982 /* Copy Dump1090 Executable */;
 			membershipExceptions = (
 				dump1090_mac,
 			);
@@ -50,7 +51,7 @@
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				236668412E565633002FA982 /* Exceptions for "Dump1090 macOS GUI" folder in "Dump1090 macOS GUI" target */,
-				236668432E565639002FA982 /* Exceptions for "Dump1090 macOS GUI" folder in "Copy Files" phase from "Dump1090 macOS GUI" target */,
+				236668432E565639002FA982 /* Exceptions for "Dump1090 macOS GUI" folder in "Copy Dump1090 Executable" phase from "Dump1090 macOS GUI" target */,
 			);
 			path = "Dump1090 macOS GUI";
 			sourceTree = "<group>";
@@ -94,7 +95,7 @@
 				236668202E565056002FA982 /* Sources */,
 				236668212E565056002FA982 /* Frameworks */,
 				236668222E565056002FA982 /* Resources */,
-				2366683C2E565193002FA982 /* CopyFiles */,
+				2366683C2E565193002FA982 /* Copy Dump1090 Executable */,
 			);
 			buildRules = (
 			);
