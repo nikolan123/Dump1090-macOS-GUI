@@ -248,9 +248,16 @@ struct ContentView: View {
 // MARK: - Preview
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
-            .preferredColorScheme(.light)
-        ContentView()
-            .preferredColorScheme(.dark)
+        let serverManager = ServerManager()
+
+        return Group {
+            ContentView()
+                .environmentObject(serverManager)
+                .preferredColorScheme(.light)
+            
+            ContentView()
+                .environmentObject(serverManager)
+                .preferredColorScheme(.dark)
+        }
     }
 }
