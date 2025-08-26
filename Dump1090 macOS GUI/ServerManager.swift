@@ -27,7 +27,6 @@ class ServerManager: ObservableObject {
     @Published var showingAdvancedPorts = false
     
     @Published var availableDevices: [String] = []
-    @Published var selectedDeviceIndex: Int = 0
     
     @Published var customLaunchArguments: String = "";
     @Published var bindAddress: String = "127.0.0.1"
@@ -233,7 +232,6 @@ class ServerManager: ObservableObject {
                     print("[DEBUG] Parsed devices: \(devices)")
                     self.availableDevices = devices
                     if !self.availableDevices.isEmpty {
-                        self.selectedDeviceIndex = 0
                         self.deviceIndex = 0
                     }
                 }

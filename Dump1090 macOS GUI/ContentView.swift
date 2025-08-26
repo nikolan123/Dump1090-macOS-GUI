@@ -24,7 +24,7 @@ struct ContentView: View {
                 // MARK: - Device Section
                 Section(header: Text("Device").font(.headline).fontWeight(.bold)) {
                     HStack(alignment: .firstTextBaseline) {
-                        Picker("Device", selection: $serverManager.selectedDeviceIndex) {
+                        Picker("Device", selection: $serverManager.deviceIndex) {
                             ForEach(serverManager.availableDevices.indices, id: \.self) { idx in
                                 Text(serverManager.availableDevices[idx]).tag(idx)
                             }
@@ -128,6 +128,10 @@ struct ContentView: View {
                 .background(.ultraThickMaterial)
         }
         .frame(minWidth: 400, minHeight: 300)
+        .alert(serverManager.errorMessage, isPresented: $serverManager.showErrorAlert) {
+            Button("OK", role: .cancel) { }
+                .keyboardShortcut(.defaultAction)
+        }
         .task {
             serverManager.detectDevices()
         }
@@ -148,10 +152,6 @@ struct ContentView: View {
                     .foregroundColor(.secondary)
             }
             Spacer()
-        }
-        .alert(serverManager.errorMessage, isPresented: $serverManager.showErrorAlert) {
-            Button("OK", role: .cancel) { }
-                .keyboardShortcut(.defaultAction)
         }
     }
 
