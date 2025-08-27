@@ -10,6 +10,7 @@ import SwiftUI
 @main
 struct Dump1090_macOS_GUIApp: App {
     @StateObject private var serverManager = ServerManager()
+    @Environment(\.openWindow) private var openWindow
     
     var body: some Scene {
         WindowGroup {
@@ -18,6 +19,12 @@ struct Dump1090_macOS_GUIApp: App {
         }
         .defaultSize(width: 600, height: 500)
         .commands {
+            CommandGroup(replacing: .appInfo) {
+                Button("About Dump1090 macOS GUI") {
+                    openWindow(id: "about")
+                }
+            }
+            
             CommandMenu("Server") {
                 Button("Start") {
                     serverManager.launchServer()
@@ -46,5 +53,21 @@ struct Dump1090_macOS_GUIApp: App {
                 .keyboardShortcut("d", modifiers: .command)
             }
         }
+        
+        // About window
+        Window("About Dump1090 macOS GUI", id: "about") {
+            if #available(macOS 15.0, *) {
+                AboutView()
+                    .containerBackground(.regularMaterial, for: .window)
+                    .toolbar(removing: .title)
+                    .toolbarBackground(.hidden, for: .windowToolbar)
+                    .frame(width: 500, height: 300)
+            } else {
+                AboutView()
+                    .frame(width: 500, height: 300)
+            }
+        }
+        .defaultSize(width: 500, height: 300)
     }
 }
+
