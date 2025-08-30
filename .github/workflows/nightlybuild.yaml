@@ -1,8 +1,9 @@
 name: Nightly Build and Release
 
 on:
-  schedule:
-    - cron: "0 3 * * *" # 3 am utc
+  push:
+    branches:
+      - '**'
   workflow_dispatch:
 
 jobs:
