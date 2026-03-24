@@ -122,9 +122,13 @@ struct ContentView: View {
             .scrollContentBackground(.hidden)
             .frame(maxHeight: .infinity)
 
+            Divider()
+            
             // MARK: - Status & Controls
             footerView
-                .padding()
+                .padding(.horizontal)
+                .padding(.top, 10)
+                .padding(.bottom, 18)
                 .background(.ultraThickMaterial)
         }
         .frame(minWidth: 400, minHeight: 300)
