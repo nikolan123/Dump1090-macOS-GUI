@@ -1,0 +1,274 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    overflow-x: hidden;
+    color: #1d1d1f;
+    transition: color 0.3s ease;
+}
+
+@media (prefers-color-scheme: dark) {
+    body {
+        color: #f5f5f7;
+    }
+}
+
+.background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -2;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.background-light {
+    background-image: url('images/bigsurday.webp');
+}
+
+.background-dark {
+    background-image: url('images/bigsurnight.webp');
+    display: none;
+}
+
+@media (prefers-color-scheme: dark) {
+    .background-light {
+        display: none;
+    }
+    .background-dark {
+        display: block;
+    }
+}
+
+.blur-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    backdrop-filter: blur(40px);
+    -webkit-backdrop-filter: blur(40px);
+    background: rgba(255, 255, 255, 0.3);
+}
+
+@media (prefers-color-scheme: dark) {
+    .blur-overlay {
+        background: rgba(0, 0, 0, 0.4);
+    }
+}
+
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.hero {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.icon {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 20px;
+}
+
+.icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.icon-light {
+    display: block;
+}
+
+.icon-dark {
+    display: none;
+}
+
+@media (prefers-color-scheme: dark) {
+    .icon-light {
+        display: none;
+    }
+    .icon-dark {
+        display: block;
+    }
+}
+
+h1 {
+    font-size: 56px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    letter-spacing: -0.5px;
+}
+
+.subtitle {
+    font-size: 24px;
+    font-weight: 400;
+    opacity: 0.8;
+    margin-bottom: 10px;
+}
+
+.download-section {
+    text-align: center;
+    margin: 10px 0;
+}
+
+.download-btn {
+    display: inline-block;
+    padding: 16px 40px;
+    background: rgba(0, 122, 255, 0.9);
+    color: white;
+    text-decoration: none;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.download-btn:hover {
+    background: rgba(0, 122, 255, 1);
+    box-shadow: 0 10px 30px rgba(0, 122, 255, 0.3);
+}
+
+.requirements {
+    font-size: 14px;
+    opacity: 0.7;
+    margin-top: 16px;
+}
+
+.screenshot-container {
+    width: 100%;
+    max-width: 700px;
+    margin: 0;
+    border-radius: 16px;
+    overflow: hidden;
+    background: transparent;
+}
+
+.screenshot-light {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.screenshot-dark {
+    display: none;
+    width: 100%;
+    height: auto;
+}
+
+@media (prefers-color-scheme: dark) {
+    .screenshot-light {
+        display: none;
+    }
+    .screenshot-dark {
+        display: block;
+    }
+}
+
+.features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    margin: 40px 0 10px 0;
+    width: 100%;
+}
+
+.feature {
+    text-align: center;
+    padding: 30px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transition: transform 0.3s ease;
+}
+
+@media (prefers-color-scheme: dark) {
+    .feature {
+        background: rgba(0, 0, 0, 0.2);
+    }
+}
+
+.feature:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+@media (prefers-color-scheme: dark) {
+    .feature:hover {
+        background: rgba(0, 0, 0, 0.3);
+    }
+}
+
+.feature-icon {
+    margin-bottom: 16px;
+}
+
+.feature-icon img {
+    width: 40px;
+    height: 40px;
+}
+
+@media (prefers-color-scheme: dark) {
+    .feature-icon img {
+        filter: invert(1);
+    }
+}
+
+.feature h3 {
+    font-size: 20px;
+    margin-bottom: 12px;
+}
+
+.feature p {
+    font-size: 16px;
+    opacity: 0.8;
+    line-height: 1.5;
+}
+
+.credits {
+    margin-top: 80px;
+    text-align: center;
+    font-size: 14px;
+    opacity: 0.7;
+    max-width: 700px;
+}
+
+.credits a {
+    color: inherit;
+    text-decoration: underline;
+}
+
+.credits-author {
+    margin-top: 20px;
+}
+
+@media (max-width: 768px) {
+    h1 {
+        font-size: 40px;
+    }
+    .subtitle {
+        font-size: 20px;
+    }
+    .features {
+        grid-template-columns: 1fr;
+    }
+}

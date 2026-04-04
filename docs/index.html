@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dump1090 macOS GUI</title>
+    <link rel="icon" type="image/webp" href="images/icon_light.webp">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="background background-light"></div> <!-- TODO: make a better screenshot when i have my sdr -->
+    <div class="background background-dark"></div>
+    <div class="blur-overlay"></div>
+
+    <div class="container">
+        <div class="hero">
+            <div class="icon">
+                <img src="images/icon_light.webp" alt="Dump1090 Icon" class="icon-light">
+                <img src="images/icon_dark.webp" alt="Dump1090 Icon" class="icon-dark">
+            </div>
+            <h1>Dump1090 macOS GUI</h1>
+            <p class="subtitle">ADS-B, Mode S, and Mode 3/A receiver for macOS</p>
+        </div>
+
+        <div class="screenshot-container">
+            <img src="images/dump1090screenshot_light.webp" alt="Dump1090 Screenshot Light Mode" class="screenshot-light">
+            <img src="images/dump1090screenshot_dark.webp" alt="Dump1090 Screenshot Dark Mode" class="screenshot-dark">
+        </div>
+
+        <div class="download-section">
+            <a href="https://github.com/nikolan123/Dump1090-macOS-GUI/releases/download/nightly/Dump1090MAC.dmg" class="download-btn">Download Nightly Build</a>
+            <p class="requirements">macOS 13.0 or later • Apple Silicon only</p>
+        </div>
+
+        <div class="features">
+            <div class="feature">
+                <div class="feature-icon">
+                    <img src="images/radio.svg" alt="Radio icon">
+                </div>
+                <h3>RTL-SDR Support</h3>
+                <p>Connect your RTL-SDR dongle and start receiving aircraft signals</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">
+                    <img src="images/sliders-vertical.svg" alt="Sliders icon">
+                </div>
+                <h3>Easy Configuration</h3>
+                <p>Simple interface to configure device settings, gain, and network options</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">
+                    <img src="images/network.svg" alt="Network icon">
+                </div>
+                <h3>Network Streaming</h3>
+                <p>Stream data over TCP for use with other ADS-B applications</p>
+            </div>
+        </div>
+
+        <div class="credits">
+            <p>Inspired by <a href="https://github.com/mxswd/dump1090-mac-app" target="_blank">mxswd/dump1090-mac-app</a></p>
+            <p>Built with dump1090 by <a href="https://github.com/MalcolmRobb/dump1090" target="_blank">MalcolmRobb</a>, 
+            <a href="https://github.com/steve-m/librtlsdr" target="_blank">librtlsdr</a>, and 
+            <a href="https://github.com/libusb/libusb" target="_blank">libusb</a></p>
+            <p class="credits-author">Made by <a href="https://nikolan.net" target="_blank">Niko</a> • <a href="mailto:niko@nikolan.net">niko@nikolan.net</a></p>
+        </div>
+    </div>
+</body>
+</html>
