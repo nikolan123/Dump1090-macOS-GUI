@@ -55,6 +55,11 @@ jobs:
             "build/Release/Dump1090MAC.dmg" \
             "build/Release/Dump1090 macOS GUI.app"
 
+      - name: Package ZIP
+        run: |
+          cd build/Release
+          zip -r "Dump1090MAC.zip" "Dump1090 macOS GUI.app"
+
       - name: Nightly release
         id: release
         uses: softprops/action-gh-release@v1
@@ -66,10 +71,12 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN_FINE }}
 
-      - name: Upload DMG to release
+      - name: Upload Assets to release
         uses: softprops/action-gh-release@v1
         with:
           tag_name: nightly
-          files: build/Release/Dump1090MAC.dmg
+          files: |
+            build/Release/Dump1090MAC.dmg
+            build/Release/Dump1090MAC.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN_FINE }}

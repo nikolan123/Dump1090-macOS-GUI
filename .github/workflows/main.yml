@@ -36,8 +36,15 @@ jobs:
             "build/Release/Dump1090MAC.dmg" \
             "build/Release/Dump1090 macOS GUI.app"
 
-      - name: Upload DMG
+      - name: Package ZIP
+        run: |
+          cd build/Release
+          zip -r "Dump1090MAC.zip" "Dump1090 macOS GUI.app"
+
+      - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: Dump1090MAC-DMG
-          path: build/Release/Dump1090MAC.dmg
+          name: Dump1090MAC-Builds
+          path: |
+            build/Release/Dump1090MAC.dmg
+            build/Release/Dump1090MAC.zip
