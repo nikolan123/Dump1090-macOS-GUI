@@ -5,7 +5,8 @@ when:
       - master
   - event: manual
 
-platform: darwin/amd64
+labels:
+  platform: darwin/amd64
 
 steps:
   build-macos:
