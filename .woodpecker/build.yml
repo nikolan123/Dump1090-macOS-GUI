@@ -81,6 +81,9 @@ steps:
               -F "build=$CI_COMMIT_SHA" \
               -F "commit=$CI_COMMIT_SHA" \
               -F "branch=$CI_COMMIT_BRANCH" \
+              -F "job=macos-release" \
+              -F "platform=macos" \
+              -F "arch=universal" \
               -F "pipeline=$CI_PIPELINE_NUMBER" \
               -F "created_at=$NOW_UTC" \
               -F "elapsed_seconds=$ELAPSED_SECONDS" \
