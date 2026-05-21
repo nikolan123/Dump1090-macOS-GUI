@@ -42,8 +42,10 @@ steps:
           "artifacts/Dump1090MAC.dmg" \
           "build/Release/Dump1090 macOS GUI.app"
       - |
-        cd build/Release
-        zip -r "../../artifacts/Dump1090MAC.zip" "Dump1090 macOS GUI.app"
+        (
+          cd build/Release
+          zip -r "../../artifacts/Dump1090MAC.zip" "Dump1090 macOS GUI.app"
+        )
       - ls -lah artifacts
 
   post-to-main-pc:
