@@ -6,7 +6,7 @@ when:
   - event: manual
 
 labels:
-  platform: darwin/amd64
+  backend: local
 
 steps:
   build-macos:
