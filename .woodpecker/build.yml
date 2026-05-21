@@ -1,0 +1,65 @@
+when:
+  - event: push
+    branch:
+      - main
+      - master
+  - event: manual
+
+labels:
+  backend: local
+
+steps:
+  build-macos:
+    image: bash
+    commands:
+      - date +%s > .tekljer_action_started_at
+      - xcodebuild -version
+      - xcodebuild -project "Dump1090 macOS GUI.xcodeproj" -target "Dump1090 macOS GUI" -configuration Release -derivedDataPath build/DerivedData CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY=""
+      - mkdir -p artifacts
+      - ditto -c -k --keepParent "build/DerivedData/Build/Products/Release/Dump1090 macOS GUI.app" "artifacts/Dump1090-macOS-GUI-${CI_COMMIT_SHA}.zip"
+      - ls -lah artifacts
+
+  post-to-main-pc:
+    image: bash
+    depends_on:
+      - build-macos
+    environment:
+      UPLOAD_TOKEN:
+        from_secret: upload_token
+    commands:
+      - pwd
+      - find . -maxdepth 3 -type f
+      - ls -lah artifacts
+      - |
+        START_TS="$(cat .tekljer_action_started_at 2>/dev/null || true)"
+        if ! echo "$START_TS" | grep -Eq '^[0-9]+$'; then
+          START_TS="$(date +%s)"
+        fi
+
+        FOUND=0
+
+        for f in artifacts/*; do
+          if [ -f "$f" ]; then
+            FOUND=1
+            echo "Uploading $f"
+            NOW_UTC="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+            CURRENT_TS="$(date +%s)"
+            ELAPSED_SECONDS="$((CURRENT_TS - START_TS))"
+
+            curl -f -X POST "http://192.168.1.20:7777/upload" \
+              -H "X-TEKLJER-Token: $UPLOAD_TOKEN" \
+              -F "repo=nikolan123/Dump1090-macOS-GUI" \
+              -F "build=$CI_COMMIT_SHA" \
+              -F "commit=$CI_COMMIT_SHA" \
+              -F "branch=$CI_COMMIT_BRANCH" \
+              -F "pipeline=$CI_PIPELINE_NUMBER" \
+              -F "created_at=$NOW_UTC" \
+              -F "elapsed_seconds=$ELAPSED_SECONDS" \
+              -F "files=@$f"
+          fi
+        done
+
+        if [ "$FOUND" = "0" ]; then
+          echo "No files found in artifacts/"
+          exit 1
+        fi
