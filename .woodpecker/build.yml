@@ -14,7 +14,7 @@ steps:
     commands:
       - date +%s > .tekljer_action_started_at
       - xcodebuild -version
-      - command -v create-dmg >/dev/null 2>&1 || brew install create-dmg
+      - command -v create-dmg
       - |
         xcodebuild \
           -project "Dump1090 macOS GUI.xcodeproj" \
