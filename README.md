@@ -1,4 +1,5 @@
 # Dump1090 macOS GUI
+
 ![Swift](https://img.shields.io/badge/Swift-F05138?logo=swift&logoColor=white)
 ![Build](https://github.com/nikolan123/Dump1090-macOS-GUI/actions/workflows/nightlybuild.yaml/badge.svg)
 ![Platform](https://img.shields.io/badge/platform-macOS-blue)
