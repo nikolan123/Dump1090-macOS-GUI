@@ -14,7 +14,7 @@ steps:
     commands:
       - date +%s > .tekljer_action_started_at
       - xcodebuild -version
-      - xcodebuild -project "Dump1090 macOS GUI.xcodeproj" -target "Dump1090 macOS GUI" -configuration Release -derivedDataPath build/DerivedData CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY=""
+      - xcodebuild -project "Dump1090 macOS GUI.xcodeproj" -scheme "Dump1090 macOS GUI" -configuration Release -derivedDataPath build/DerivedData CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY=""
       - mkdir -p artifacts
       - ditto -c -k --keepParent "build/DerivedData/Build/Products/Release/Dump1090 macOS GUI.app" "artifacts/Dump1090-macOS-GUI-${CI_COMMIT_SHA}.zip"
       - ls -lah artifacts
