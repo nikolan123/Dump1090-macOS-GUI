@@ -14,9 +14,35 @@ steps:
     commands:
       - date +%s > .tekljer_action_started_at
       - xcodebuild -version
-      - xcodebuild -project "Dump1090 macOS GUI.xcodeproj" -scheme "Dump1090 macOS GUI" -configuration Release -derivedDataPath build/DerivedData CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY=""
+      - command -v create-dmg >/dev/null 2>&1 || brew install create-dmg
+      - |
+        xcodebuild \
+          -project "Dump1090 macOS GUI.xcodeproj" \
+          -scheme "Dump1090 macOS GUI" \
+          -configuration Release \
+          -destination "platform=macOS" \
+          ARCHS="arm64 x86_64" \
+          ONLY_ACTIVE_ARCH=NO \
+          BUILD_DIR=build \
+          CODE_SIGNING_ALLOWED=NO \
+          CODE_SIGNING_REQUIRED=NO \
+          CODE_SIGN_IDENTITY="" \
+          clean build
       - mkdir -p artifacts
-      - ditto -c -k --keepParent "build/DerivedData/Build/Products/Release/Dump1090 macOS GUI.app" "artifacts/Dump1090-macOS-GUI-${CI_COMMIT_SHA}.zip"
+      - |
+        create-dmg \
+          --volname "Dump1090MAC" \
+          --window-pos 200 120 \
+          --window-size 600 400 \
+          --icon-size 128 \
+          --icon "Dump1090 macOS GUI.app" 150 150 \
+          --hide-extension "Dump1090 macOS GUI.app" \
+          --app-drop-link 450 150 \
+          "artifacts/Dump1090MAC.dmg" \
+          "build/Release/Dump1090 macOS GUI.app"
+      - |
+        cd build/Release
+        zip -r "../../artifacts/Dump1090MAC.zip" "Dump1090 macOS GUI.app"
       - ls -lah artifacts
 
   post-to-main-pc:
