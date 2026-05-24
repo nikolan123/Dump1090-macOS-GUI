@@ -1,0 +1,23 @@
+{
+  "metadata": {
+    "display_name": "Dump1090 macOS GUI",
+    "description": "ADS-B, Mode S, and Mode 3/A receiver for macOS.",
+    "icon": "docs/images/icon_light.webp",
+    "screenshots": [
+      "docs/images/dump1090screenshot_light.webp",
+      "docs/images/dump1090screenshot_dark.webp"
+    ],
+    "supported_platforms": {
+      "macos": "macOS 13.0 or later"
+    }
+  },
+  "job": {
+    "key": "macos-release",
+    "platform": "macos",
+    "arch": "universal",
+    "artifacts_glob": [
+      "artifacts/*.dmg",
+      "artifacts/*.zip"
+    ]
+  }
+}
