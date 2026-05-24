@@ -53,10 +53,9 @@ steps:
     depends_on:
       - build-macos
     environment:
-      TEKLJER_SERVER:
-        from_secret: tekljer_server
       UPLOAD_TOKEN:
         from_secret: upload_token
+      TEKLJER_SERVER: http://192.168.1.20:7777
       TEKLJER_JOB: macos-release
     commands:
       - ls -lah artifacts
