@@ -48,7 +48,7 @@ steps:
         )
       - ls -lah artifacts
 
-  post-to-main-pc:
+  post-to-tekljer:
     image: bash
     depends_on:
       - build-macos
