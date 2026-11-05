@@ -29,6 +29,8 @@ Temporary Items
 *.icloud
 
 ### Swift ###
+/.build/
+
 # Xcode
 
 ## User settings
