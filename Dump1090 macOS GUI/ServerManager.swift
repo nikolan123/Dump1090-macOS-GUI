@@ -74,6 +74,7 @@ class ServerManager: ObservableObject {
     
     private var task: Process?
     private var service: NetService?
+    private var activeRawOutputPort: UInt16?
     private let defaults: UserDefaults
     private var isRestoringSettings = true
 
@@ -143,7 +144,11 @@ class ServerManager: ObservableObject {
         }
 
         task.executableURL = execURL
-        task.arguments = buildArguments()
+        let arguments = buildArguments()
+        task.arguments = arguments
+        let launchedRawOutputPort = arguments.lastIndex(of: "--net-ro-port").flatMap { index in
+            arguments.indices.contains(index + 1) ? UInt16(arguments[index + 1]) : nil
+        }
         
         appendConsole("Launching with arguments: " + (task.arguments?.joined(separator: " ") ?? "none"))
         appendConsole("\n")
@@ -171,18 +176,21 @@ class ServerManager: ObservableObject {
         task.standardOutput = outPipe
         task.standardError = errPipe
 
+        task.terminationHandler = { [weak self] finishedTask in
+            Task { @MainActor in
+                guard let self = self, self.task === finishedTask else { return }
+                self.task = nil
+                self.setServerState(false)
+            }
+        }
+
         do {
             try task.run()
             self.task = task
+            activeRawOutputPort = launchedRawOutputPort
             setServerState(true)
         } catch {
             appendConsole("Failed to launch dump1090: \(error.localizedDescription)")
-        }
-
-        task.terminationHandler = { [weak self] _ in
-            Task { @MainActor in
-                self?.setServerState(false)
-            }
         }
     }
 
@@ -238,11 +246,15 @@ class ServerManager: ObservableObject {
 
     private func setServerState(_ running: Bool) {
         isRunning = running
+        if !running {
+            activeRawOutputPort = nil
+        }
         if running {
             status = "Running..."
         } else if status != "No USB Device" {
             status = "Offline"
         }
+        updateNetworkDiscovery()
     }
 
     private func appendConsole(_ str: String) {
@@ -273,10 +285,14 @@ class ServerManager: ObservableObject {
 
     private func updateNetworkDiscovery() {
         guard !isRestoringSettings else { return }
+        guard networkDiscoveryEnabled, let port = activeRawOutputPort, port != 0 else {
+            service?.stop()
+            service = nil
+            return
+        }
+        guard service?.port != Int(port) else { return }
         service?.stop()
-        service = nil
-        guard networkDiscoveryEnabled, netRoPort != 0 else { return }
-        service = NetService(domain: "", type: "_maxplanes._tcp", name: "", port: Int32(netRoPort))
+        service = NetService(domain: "", type: "_maxplanes._tcp", name: "", port: Int32(port))
         service?.publish()
     }
 
