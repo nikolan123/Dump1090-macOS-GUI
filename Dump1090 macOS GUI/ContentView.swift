@@ -102,9 +102,6 @@ struct ContentView: View {
 
                     Toggle("Enable Network Discovery", isOn: $serverManager.networkDiscoveryEnabled)
                         .toggleStyle(.switch)
-                        .onChange(of: serverManager.networkDiscoveryEnabled) { newValue in
-                            serverManager.setNetworkDiscovery(newValue)
-                        }
                 }
 
                 // MARK: - Location Section

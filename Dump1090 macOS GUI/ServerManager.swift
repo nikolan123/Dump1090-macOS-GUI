@@ -6,45 +6,125 @@
 //
 
 import Foundation
+import Combine
 
 @MainActor
 class ServerManager: ObservableObject {
     // Published states
     @Published private(set) var logLines: [String] = []
     
-    @Published var deviceIndex: Int = 0
-    @Published var gain: Int = 0
-    @Published var enableGain: Bool = false
-    @Published var latitude: String = ""
-    @Published var longitude: String = ""
+    @Published var deviceIndex: Int = 0 {
+        didSet { defaults.set(deviceIndex, forKey: SettingsKey.deviceIndex) }
+    }
+    @Published var gain: Int = 0 {
+        didSet { defaults.set(gain, forKey: SettingsKey.gain) }
+    }
+    @Published var enableGain: Bool = false {
+        didSet { defaults.set(enableGain, forKey: SettingsKey.enableGain) }
+    }
+    @Published var latitude: String = "" {
+        didSet { defaults.set(latitude, forKey: SettingsKey.latitude) }
+    }
+    @Published var longitude: String = "" {
+        didSet { defaults.set(longitude, forKey: SettingsKey.longitude) }
+    }
 
     @Published var status: String = "Offline"
     @Published var consoleOutput: String = ""
     @Published var isRunning: Bool = false
     @Published var showingLogs = false
     @Published var showingData = false
-    @Published var networkDiscoveryEnabled: Bool = true
+    @Published var networkDiscoveryEnabled: Bool = true {
+        didSet {
+            defaults.set(networkDiscoveryEnabled, forKey: SettingsKey.discovery)
+            updateNetworkDiscovery()
+        }
+    }
     @Published var showingAdvancedPorts = false
     
     @Published var availableDevices: [String] = []
     
-    @Published var customLaunchArguments: String = "";
-    @Published var bindAddress: String = "127.0.0.1"
-    @Published var netRiPort: UInt16 = 30001
-    @Published var netRoPort: UInt16 = 30002
-    @Published var netSbsPort: UInt16 = 30003
-    @Published var netBiPort: UInt16 = 30004
-    @Published var netBoPort: UInt16 = 30005
+    @Published var customLaunchArguments: String = "" {
+        didSet { defaults.set(customLaunchArguments, forKey: SettingsKey.launchArguments) }
+    }
+    @Published var bindAddress: String = "127.0.0.1" {
+        didSet { defaults.set(bindAddress, forKey: SettingsKey.bindAddress) }
+    }
+    @Published var netRiPort: UInt16 = 30001 {
+        didSet { defaults.set(Int(netRiPort), forKey: SettingsKey.rawInputPort) }
+    }
+    @Published var netRoPort: UInt16 = 30002 {
+        didSet {
+            defaults.set(Int(netRoPort), forKey: SettingsKey.rawOutputPort)
+            updateNetworkDiscovery()
+        }
+    }
+    @Published var netSbsPort: UInt16 = 30003 {
+        didSet { defaults.set(Int(netSbsPort), forKey: SettingsKey.baseStationPort) }
+    }
+    @Published var netBiPort: UInt16 = 30004 {
+        didSet { defaults.set(Int(netBiPort), forKey: SettingsKey.beastInputPort) }
+    }
+    @Published var netBoPort: UInt16 = 30005 {
+        didSet { defaults.set(Int(netBoPort), forKey: SettingsKey.beastOutputPort) }
+    }
 
     @Published var showErrorAlert: Bool = false
     @Published var errorMessage: String = ""
     
     private var task: Process?
     private var service: NetService?
+    private let defaults: UserDefaults
+    private var isRestoringSettings = true
 
-    init() {
-        service = NetService(domain: "", type: "_maxplanes._tcp", name: "", port: Int32(netRoPort))
-        service?.publish()
+    private enum SettingsKey {
+        static let deviceIndex = "device.index"
+        static let gain = "device.gain"
+        static let enableGain = "device.enableGain"
+        static let launchArguments = "launch.arguments"
+        static let latitude = "location.latitude"
+        static let longitude = "location.longitude"
+        static let bindAddress = "network.bindAddress"
+        static let discovery = "network.discoveryEnabled"
+        static let rawInputPort = "network.rawInputPort"
+        static let rawOutputPort = "network.rawOutputPort"
+        static let baseStationPort = "network.baseStationPort"
+        static let beastInputPort = "network.beastInputPort"
+        static let beastOutputPort = "network.beastOutputPort"
+    }
+
+    init(defaults: UserDefaults = .standard) {
+        self.defaults = defaults
+
+        deviceIndex = max(0, defaults.object(forKey: SettingsKey.deviceIndex) as? Int ?? 0)
+        gain = defaults.object(forKey: SettingsKey.gain) as? Int ?? 0
+        enableGain = defaults.object(forKey: SettingsKey.enableGain) as? Bool ?? false
+        customLaunchArguments = defaults.string(forKey: SettingsKey.launchArguments) ?? ""
+        latitude = defaults.string(forKey: SettingsKey.latitude) ?? ""
+        longitude = defaults.string(forKey: SettingsKey.longitude) ?? ""
+        if let address = defaults.string(forKey: SettingsKey.bindAddress),
+           ["127.0.0.1", "0.0.0.0"].contains(address) {
+            bindAddress = address
+        }
+        networkDiscoveryEnabled = defaults.object(forKey: SettingsKey.discovery) as? Bool ?? true
+        netRiPort = Self.savedPort(in: defaults, key: SettingsKey.rawInputPort, fallback: 30001)
+        netRoPort = Self.savedPort(in: defaults, key: SettingsKey.rawOutputPort, fallback: 30002)
+        netSbsPort = Self.savedPort(in: defaults, key: SettingsKey.baseStationPort, fallback: 30003)
+        netBiPort = Self.savedPort(in: defaults, key: SettingsKey.beastInputPort, fallback: 30004)
+        netBoPort = Self.savedPort(in: defaults, key: SettingsKey.beastOutputPort, fallback: 30005)
+
+        isRestoringSettings = false
+        updateNetworkDiscovery()
+    }
+
+    deinit {
+        service?.stop()
+    }
+
+    private static func savedPort(in defaults: UserDefaults, key: String, fallback: UInt16) -> UInt16 {
+        guard let value = defaults.object(forKey: key) as? Int,
+              let port = UInt16(exactly: value) else { return fallback }
+        return port
     }
 
     func toggleServer() {
@@ -191,12 +271,13 @@ class ServerManager: ObservableObject {
         showErrorAlert = true
     }
 
-    func setNetworkDiscovery(_ enabled: Bool) {
-        if enabled {
-            service?.publish()
-        } else {
-            service?.stop()
-        }
+    private func updateNetworkDiscovery() {
+        guard !isRestoringSettings else { return }
+        service?.stop()
+        service = nil
+        guard networkDiscoveryEnabled, netRoPort != 0 else { return }
+        service = NetService(domain: "", type: "_maxplanes._tcp", name: "", port: Int32(netRoPort))
+        service?.publish()
     }
 
     func detectDevices() {
@@ -231,7 +312,8 @@ class ServerManager: ObservableObject {
                     let devices = self.parseDevices(from: output)
                     print("[DEBUG] Parsed devices: \(devices)")
                     self.availableDevices = devices
-                    if !self.availableDevices.isEmpty {
+                    if !self.availableDevices.isEmpty,
+                       !self.availableDevices.indices.contains(self.deviceIndex) {
                         self.deviceIndex = 0
                     }
                 }

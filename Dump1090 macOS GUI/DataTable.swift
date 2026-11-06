@@ -22,8 +22,6 @@ struct Aircraft: Identifiable {
 // MARK: - ViewModel
 @MainActor
 class AircraftViewModel: ObservableObject {
-    @StateObject private var serverManager = ServerManager()
-    
     @Published var aircraftList: [Aircraft] = []
     private var aircraftDict: [String: Aircraft] = [:]
     private var connection: NWConnection?
